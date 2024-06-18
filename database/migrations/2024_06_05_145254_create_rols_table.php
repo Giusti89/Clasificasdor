@@ -30,6 +30,9 @@ return new class extends Migration
             [
                 'nombre' => 'Docente de la institución',
             ],
+            [
+                'nombre' => 'Plantel administrativo',
+            ],
         ]);
     }
 

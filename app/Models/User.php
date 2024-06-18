@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'password',
+        'image_url',
+        'rol_id',
     ];
 
     /**
@@ -42,4 +45,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    
+    public function rol()
+    {
+        return $this->belongsTo(Rol::class);
+    }
+
+    public function carreras()
+    {
+        return $this->belongsToMany(Carrera::class);
+    }
 }

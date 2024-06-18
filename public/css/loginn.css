@@ -1,0 +1,150 @@
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex-direction: row;
+    font-family: 'Overpass', sans-serif;
+    font-weight: normal;
+    
+    color: #1b262c;
+    margin: 0;
+    background-color: #5f6769;
+}
+.contenido {
+    width: 880px;
+    background-color: #5f6769;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 3rem;
+}
+/* ---------------formulario----------- */
+
+.titulo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    color: aliceblue;
+    font-size: x-large;
+    font-family:  Georgia;
+}
+label{
+color: white;
+font-size: 16px;
+}
+.forget{
+    color: aliceblue;
+    margin-bottom: 25px;
+}
+
+.login {
+    background-color: black;
+    border: 2px solid red;    
+    width: 50%;
+    padding: 25px;
+}
+
+.inputbox input {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    padding: 0 35px 0 5px;
+    color: black;
+    margin-bottom: 15px;
+}
+
+.inputbox ion-icon {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-size: 1.2rem;
+    top: 20px;
+}
+/* ----------bienvenida-------------- */
+.bienvenida {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 15px;
+    color: aliceblue;
+    
+}
+.bienvenida P{
+    text-align: center;
+    font-family:  Georgia;
+    font-size: 1rem;
+}
+.bienvenida .titulo{
+    color: black;
+    font-size: 1.5rem;
+}
+
+/*----------boton-------------  */
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background-color:  #5f6769;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.4s ease;
+}
+
+button p {
+    color: aliceblue;
+}
+
+button:hover {
+    background-color:  #28bb2d;
+}
+button:active {
+    background-color: #02ff0a;
+}
+/*----------boton-------------  */
+@media (max-width: 768px) {
+    .contenedor {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        flex-direction: column;
+        font-family: 'Overpass', sans-serif;
+        font-weight: normal;        
+        color: #1b262c;
+        margin: 0;
+    }
+    .contenido {
+        width: 98%;
+        background-color: #5f6769;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 3rem;
+    }
+    .login {
+        order: 1;
+        background-color: black;
+        border: 2px solid red;    
+        width: 100%;
+        padding: 25px;
+    }
+    .bienvenida {
+        order: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 15px;
+        color: aliceblue;
+    }
+    .bienvenida .titulo{
+        color: black;
+        font-size: 1.9rem;
+        text-align: center;
+    }
+}

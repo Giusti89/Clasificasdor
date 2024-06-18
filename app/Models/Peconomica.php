@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Peconomica extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['descripcion', 'npartida', 'detalle', 'monto'];
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

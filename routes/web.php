@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect()->route('login');
 });
+
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    ->middleware('guest', 'nocache', 'logout.if.authenticated')
+    ->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+    ->middleware('guest');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

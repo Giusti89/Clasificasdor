@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -24,9 +26,16 @@ return new class extends Migration
             $table->unsignedBigInteger('rol_id');
             $table->foreign('rol_id')->references('id')->on('rols');
 
-            $table->unsignedBigInteger('carrera_id');
-            $table->foreign('carrera_id')->references('id')->on('carreras');
+           
         });
+        DB::table('users')->insert([
+            [
+                'name' => 'Giusti',
+                'email' => 'giusti.17@hotmail.com',
+                'password' => Hash::make('17041989'),
+               'rol_id'=>'1',
+            ],
+        ]);
     }
 
     /**
