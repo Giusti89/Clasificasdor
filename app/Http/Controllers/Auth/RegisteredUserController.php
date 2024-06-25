@@ -45,6 +45,9 @@ class RegisteredUserController extends Controller
             'rol'=>['required'],
             'file'=>['nullable',File::image()->max(10*1024)],
         ]);
+        
+        $fileName = null;
+
         if ($request->hasFile('file')) {
             $fileName=time().'.'.$request->file->extension();
             $request->file->move(public_path('avatar'),$fileName);
@@ -58,6 +61,6 @@ class RegisteredUserController extends Controller
             'image_url' =>$fileName, 
         ]);     
         event(new Registered($user));
-        return redirect()->route('dashboard');
+        return redirect()->route('adminIndex');
     }
 }

@@ -45,7 +45,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    
+
     public function rol()
     {
         return $this->belongsTo(Rol::class);
@@ -54,5 +54,9 @@ class User extends Authenticatable
     public function carreras()
     {
         return $this->belongsToMany(Carrera::class);
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'carrera_user', 'carrera_id', 'user_id');
     }
 }

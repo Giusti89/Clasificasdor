@@ -20,4 +20,8 @@ class Carrera extends Model
     {
         return $this->hasMany(Requerimiento::class);
     }
+    public function presupuestos()
+    {
+        return $this->hasMany(Presupuesto::class, 'carrera_id');
+    }
 }

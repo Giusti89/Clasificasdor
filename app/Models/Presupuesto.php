@@ -15,4 +15,5 @@ class Presupuesto extends Model
     {
         return $this->belongsTo(Carrera::class);
     }
+    
 }

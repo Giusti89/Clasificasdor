@@ -11,18 +11,27 @@
                 </div>
 
                 <!-- Navigation Links -->
+                @if (Auth::user()->rol_id == 1)
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('adminIndex')" :active="request()->routeIs('adminIndex')">
+                            {{ __('Administración ') }}
+                        </x-nav-link>
+                    </div>
+                @endif
+                
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Inicio') }}
                     </x-nav-link>
                 </div>
+                
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <div>
-                    <img style="width:70px;" src="./avatar/{{ Auth::user()->image_url }}" alt="">
-                </div>
+                {{-- <div>
+                    <img style="width:70px;height:auto ;" src="./avatar/{{ Auth::user()->image_url }}" alt="">
+                </div> --}}
                 <x-dropdown align="right" width="48">
 
                     <x-slot name="trigger">
@@ -87,10 +96,20 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('Inicio') }}
             </x-responsive-nav-link>
         </div>
-
+        @if (Auth::user()->rol_id == 1)
+            <div class="pt-2 pb-3 space-y-1">
+                <x-responsive-nav-link :href="route('adminIndex')" :active="request()->routeIs('adminIndex')">
+                    {{ __('Administración de usuarios') }}
+                </x-responsive-nav-link>
+            </div>
+            
+            <x-responsive-nav-link :href="route('register')">
+                {{ __('Registrar usuario') }}
+            </x-responsive-nav-link>
+        @endif
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
@@ -102,6 +121,8 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Perfil de usuario') }}
                 </x-responsive-nav-link>
+
+                
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

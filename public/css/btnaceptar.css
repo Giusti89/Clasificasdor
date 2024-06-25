@@ -1,0 +1,36 @@
+.crearAceptar {
+    color: aliceblue;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #3a6b26;
+    border-radius: 10%;
+    padding: 1vw;
+    width: 10vw;
+    border-color: transparent;
+    cursor: pointer;
+    font-size:1.5rem;
+}
+
+.crearAceptar:hover {
+    background-color: #4c7d38;
+}
+
+.crearAceptar:active {
+    background-color: #334c28;
+}
+@media (max-width: 768px) {
+    .crearAceptar {
+        background-color: #4f763f;
+        
+        color: aliceblue;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 10%;
+        padding: 1vw;
+        width: 50%;
+        border-color: transparent;
+        cursor: pointer;
+        
+    }
+    
+}

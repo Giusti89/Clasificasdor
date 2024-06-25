@@ -1,0 +1,36 @@
+#cancelar {
+    color: aliceblue;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #e62e1b;
+    border-radius: 10%;
+    padding: 1vw;
+    width: 10vw;
+    border-color: transparent;
+    cursor: pointer;
+    
+}
+
+#cancelar:hover {
+    background-color: #ad1313;
+}
+
+#cancelar:active {
+    background-color: red;
+}
+
+@media (max-width: 768px) {
+    #cancelar {
+        color: aliceblue;
+        font-size: 1em;
+        font-weight: bold;
+        background-color: #e62e1b;
+        border-radius: 10%;
+        padding: 1vw;
+        width: 100%;
+        border-color: transparent;
+        cursor: pointer;
+        
+    }
+    
+}

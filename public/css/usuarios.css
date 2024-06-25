@@ -1,0 +1,130 @@
+.contenedor{
+    margin-top: 35px;
+}
+/* -------------------tabla------------------- */
+.titulo{
+    display: flex;
+    font-size: 1.2rem;
+    justify-content: center;
+    align-items: center;
+}
+table {
+    border: 1px solid rgb(200, 200, 200);
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    width: 100%;
+    margin-top: 3vw;
+}
+
+tr {
+    text-align: center;
+}
+
+tr:nth-child(odd) {
+    background: rgb(225, 225, 225);
+    color: black;
+
+}
+
+th {
+    background: #c0211c;
+    border: 1px solid rgb(160, 160, 160);
+    color: rgb(255, 255, 255);
+    padding: .8rem;
+}
+
+td {
+    border: 1px solid rgb(160, 160, 160);
+    padding: .8rem;
+}
+
+table tr:hover {
+    background: rgb(255, 235, 185);
+}
+
+.table-container {
+    margin: 0 0 1rem;
+    overflow: auto;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.anuncio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: solid red;
+    padding: 5px;
+    background-color: rgb(218, 102, 102);
+    display: block;
+}
+
+.anuncio h1 {
+    color: aliceblue;
+    text-align: center;
+}
+
+.modificar {
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.modificar:hover {
+    background-color: #45a049;
+}
+
+.modificar:active {
+    background-color: #3e8e41;
+}
+/*-----------botonenvio datos ---------------  */
+.asigna {
+    background-color: #4c9141 ;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.asigna:hover {
+    background-color: #68a95e;
+}
+
+.asigna:active {
+    background-color: #416e3a;
+}
+
+@media (max-width: 768px) {
+    .botones {
+        display: flex;
+        flex-direction: column;
+        width: 50vw;
+        gap: 50px;
+    }
+
+    .botones label {
+        width: 25vw;
+    }
+    .asigna {
+        background-color: #4c9141 ;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.5rem;
+    }
+}
