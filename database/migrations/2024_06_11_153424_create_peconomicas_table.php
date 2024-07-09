@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('peconomicas', function (Blueprint $table) {
             $table->id();
+            $table->text('nombre');
             $table->integer('npartida')->unique();
             $table->text('descripcion');
-            $table->text('detalle');
+            
             $table->decimal('monto', 15, 2);
 
 

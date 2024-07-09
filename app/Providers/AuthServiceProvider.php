@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Providers;
+use App\Policies\RequerimientoPolicy;
+use Illuminate\Support\Facades\Gate;
+use App\Models\Requerimiento;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -13,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        Requerimiento::class => RequerimientoPolicy::class,
     ];
 
     /**
@@ -21,6 +24,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
     }
 }

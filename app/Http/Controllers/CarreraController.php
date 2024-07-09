@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Models\CarreraUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class CarreraController extends Controller
 {
@@ -48,20 +50,27 @@ class CarreraController extends Controller
             'monto' => $request->monto,
         ]);
 
-        return redirect()->route('adminCarrera')->with('msj', 'cambio');
+        return redirect()->route('adminIndex')->with('msj', 'cambio');
     }
 
-    public function asignar($id)
+    public function asignar($encryptedId)
     {
-        $carrera = Carrera::findOrFail($id);
+        try {
 
-        // Obtener todos los usuarios que no son 'Dir Administrativo'
-        $usuariosDisponibles = User::where('rol_id', '!=', 1)->pluck('name', 'id');
+            $id = Crypt::decrypt($encryptedId);
 
-        // Obtener los usuarios que ya están asignados a esta carrera
-        $usuariosAsignados = $carrera->users()->where('rol_id', '!=', 1)->paginate(4);
+            $carrera = Carrera::findOrFail($id);
 
-        return view('administracion.carreras.asignar', compact('carrera', 'usuariosDisponibles', 'usuariosAsignados'));
+            $usuariosDisponibles = User::where('rol_id', '!=', 1)->pluck('name', 'id');
+
+            // Obtener los usuarios que ya están asignados a esta carrera
+            $usuariosAsignados = $carrera->users()->where('rol_id', '!=', 1)->paginate(4);
+
+            return view('administracion.carreras.asignar', compact('carrera', 'usuariosDisponibles', 'usuariosAsignados'));
+        } catch (DecryptException $e) {
+
+            return redirect()->route('adminCarrera')->with('msj', 'error');
+        }
     }
 
     public function asignarUsuarioCarrera(Request $request, $carreraId)
@@ -111,29 +120,78 @@ class CarreraController extends Controller
             return redirect()->route('adminCarrera')->with(['msj' => 'prohibido']);
         }
     }
-    public function edit(string $id)
+    public function edit(string $encryptedId)
     {
-        $datos = Carrera::select('carreras.id', 'carreras.nombre', 'presupuestos.monto as presupuesto')
-            ->join('presupuestos', 'presupuestos.carrera_id', '=', 'carreras.id')
-            ->where('carreras.id', $id)
-            ->first();
+        try {
 
-        $carreras = Carrera::join('presupuestos', 'presupuestos.carrera_id', '=', 'carreras.id')
-            ->select('carreras.id', 'carreras.nombre', 'presupuestos.monto')
-            ->where('carreras.id', '!=', $id)
-            ->get();
+            $id = Crypt::decrypt($encryptedId);
 
-        if ($datos) {
+            $datos = Carrera::select('carreras.id', 'carreras.nombre', 'presupuestos.monto as presupuesto')
+                ->join('presupuestos', 'presupuestos.carrera_id', '=', 'carreras.id')
+                ->where('carreras.id', $id)
+                ->first();
 
-            return view('administracion.carreras.edit', compact('datos', 'carreras'));
-        } else {
-            return Redirect::route('adminIndex')->with('msj', 'error');
+            $carreras = Carrera::join('presupuestos', 'presupuestos.carrera_id', '=', 'carreras.id')
+                ->select('carreras.id', 'carreras.nombre', 'presupuestos.monto')
+                ->where('carreras.id', '!=', $id)
+                ->get();
+
+            if ($datos) {
+
+                return view('administracion.carreras.edit', compact('datos', 'carreras'));
+            } else {
+                return Redirect::route('adminCarrera')->with('msj', 'error');
+            }
+        } catch (DecryptException $e) {
+
+            return Redirect::route('adminCarrera')->with('msj', 'error');
         }
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre' => 'string|max:255',
+            'monto' => 'numeric',
+            'agregar' => 'nullable|numeric',
+            'reducir' => 'nullable|numeric',
 
-        dd($request);
+        ], [
+            'nombre.string' => 'El nombre de la carrera debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre de la carrera no debe exceder los 255 caracteres.',
 
+            'monto.numeric' => 'El presupuesto debe ser un número.',
+
+
+            'agregar.numeric' => 'El presupuesto debe ser un número.',
+
+            'reducir.numeric' => 'El presupuesto debe ser un número.',
+        ]);
+
+        $carrera = Carrera::findOrFail($id);
+        $carrera->nombre = $request->nombre;
+        $carrera->save();
+
+        $presupuesto = Presupuesto::where('carrera_id', $carrera->id)->first();
+        $presupuesto->monto = $request->monto + ($request->agregar ?? 0) - ($request->reducir ?? 0);
+        $presupuesto->save();
+
+        if ($request->has('transferir') && $request->transferir && $request->carrera_id && $request->trasnferir) {
+            $carreraDestino = Carrera::findOrFail($request->carrera_id);
+            $presupuestoDestino = Presupuesto::where('carrera_id', $carreraDestino->id)->first();
+
+
+
+            if ($request->trasnferir  <= $presupuestoDestino->monto) {
+                $presupuesto->monto += $request->trasnferir;
+                $presupuesto->save();
+
+                $presupuestoDestino->monto -= $request->trasnferir;
+                $presupuestoDestino->save();
+            } else {
+                return back()->withErrors(['trasnferir' => 'No hay suficiente presupuesto para transferir.']);
+            }
+        }
+
+        return redirect()->route('adminCarrera')->with('msj', 'cambio');
     }
 }

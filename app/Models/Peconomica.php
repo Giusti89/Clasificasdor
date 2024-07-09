@@ -9,10 +9,21 @@ class Peconomica extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['descripcion', 'npartida', 'detalle', 'monto'];
+    protected $fillable = [
+        'nombre', 
+        'npartida',
+        'descripcion',
+        'monto',
+        'teconomica_id'
+    ];
 
     public function items()
     {
         return $this->hasMany(Item::class);
+    }
+    
+    public function teconomica()
+    {
+        return $this->belongsTo(Teconomica::class);
     }
 }

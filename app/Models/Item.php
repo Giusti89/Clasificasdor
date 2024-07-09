@@ -9,7 +9,15 @@ class Item extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['descripcion', 'costo', 'puntaje', 'cantidad', 'imagen_url', 'requerimiento_id', 'peconomica_id'];
+    protected $fillable = [
+        'descripcion',
+        'costo',
+        'punitario',
+        'cantidad',
+        'image_url',
+        'requerimiento_id',
+        'peconomica_id',
+    ];
 
     public function requerimiento()
     {

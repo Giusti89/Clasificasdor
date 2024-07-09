@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class AdministracionController extends Controller
 {
@@ -46,16 +48,18 @@ class AdministracionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $encryptedId)
     {
-        $user = User::find($id);
-        if ($user = User::find($id)) {
+        try {
+            
+            $id = Crypt::decrypt($encryptedId);               
+            $user = User::find($id);    
             $rol = Rol::pluck('id', 'nombre');
             return view('administracion.usuarios.edit', compact('user', 'rol'));
-        }else {
+        } catch (DecryptException $e) {
+            
             return Redirect::route('adminIndex')->with('msj', 'error');
         }
-       
     }
 
     /**

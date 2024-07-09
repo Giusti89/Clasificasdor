@@ -55,6 +55,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Carrera::class);
     }
+    
     public function users()
     {
         return $this->belongsToMany(User::class, 'carrera_user', 'carrera_id', 'user_id');

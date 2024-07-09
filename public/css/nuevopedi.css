@@ -1,0 +1,18 @@
+.contenido{
+    background-color: #939393;
+    margin-bottom: 50px;
+}
+
+.conteform{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.titulo h1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #c0211c;
+    margin: 25px;
+}

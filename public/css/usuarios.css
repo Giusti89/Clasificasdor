@@ -108,6 +108,18 @@ table tr:hover {
 }
 
 @media (max-width: 768px) {
+    .titulo {
+        font-size: 0.9rem;
+        flex-direction: column; /* Ajustar la dirección del flex */
+    }
+
+    table {
+        font-size: 0.7rem;
+    }
+
+    th, td {
+        padding: 0.4rem;
+    }
     .botones {
         display: flex;
         flex-direction: column;

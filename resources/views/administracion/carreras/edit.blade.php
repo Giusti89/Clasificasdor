@@ -45,7 +45,7 @@
             <div class="mt-4 titulo">
                 <h1> <b>Transferencia de presupuestos </b></h1>
             </div>
-        <input type="checkbox" id="transferir">
+        <input type="checkbox" id="transferir" name="transferir">
             {{-- transferir recursos economicos entre carreras  --}}
             <div class="transferencia" id="transferencia">
                 <div class="mt-4">

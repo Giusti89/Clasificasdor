@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('teconomicas', function (Blueprint $table) {
-            $table->id();
-            $table->text('nombre');
-            $table->text('descripcion');
-            $table->integer('npartida')->unique();
-            $table->decimal('presupuesto', 15, 2);
-            $table->timestamps();
+        Schema::table('requerimientos', function (Blueprint $table) {
+            $table->timestamp('fecha')->default(DB::raw('CURRENT_TIMESTAMP'))->change();
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('teconomicas');
+        Schema::table('requerimientos', function (Blueprint $table) {
+            $table->timestamp('fecha')->default(null)->change();
+        });
     }
 };

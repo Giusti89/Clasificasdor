@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->text('descripcion');
             $table->enum('estado', ['pendiente', 'aprovado', 'clasificado'])->default('pendiente');
-            $table->date('fecha');
+            $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras');

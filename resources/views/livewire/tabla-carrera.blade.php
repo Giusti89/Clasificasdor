@@ -1,5 +1,5 @@
 <div>
-    
+
     <div class="contenedor">
         <link rel="stylesheet" href="../../css/usuarios.css">
         <div class="botones">
@@ -20,7 +20,7 @@
             <table>
                 <thead>
                     <tr>
-                        
+
                         <th>Carrera</th>
                         <th>Presupuesto</th>
                         <th>Asignacion de personal</th>
@@ -30,51 +30,53 @@
                 </thead>
                 <tbody>
                     @foreach ($carrera as $carr)
-                       
-                            <tr>
-                              
-                                <td class="filas-tabla">
-                                    {{ $carr->nombre }}
-                                </td>
+                        <tr>
 
-                                <td class="filas-tabla">
-                                    {{ $carr->presupuesto }}
-                                </td>
+                            <td class="filas-tabla">
+                                {{ $carr->nombre }}
+                            </td>
 
-                                
+                            <td class="filas-tabla">
+                                {{ $carr->presupuesto }}
+                            </td>
 
-                                <td class="filas-tabla">
-                                    <div>
 
-                                        <a href="{{ route('asigCarr',  $carr->id) }}">
-                                            <button type="button" class="asigna">
-                                                Asignar Personal
-                                            </button>
-                                        </a>
-                                       
 
-                                    </div>
-                                </td>
-                                <td class="filas-tabla">
-                                    <div>
-                                        <x-layouts.btnenviodat rutaEnvio="modifCarrera" dato="{{ $carr->id }}"
-                                            nombre="Modificar datos">
-                                        </x-layouts.btnenviodat>
-                                    </div>
-                                </td>
-                                <td class="filas-tabla">
-                                    <div>
-                                        <form class="eli" action="{{ route('eliCarrera', $carr->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-layouts.btnelim contenido="Eliminar">
-                                            </x-layouts.btnelim>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        
+                            <td class="filas-tabla">
+                                <div>
+                                    @php
+                                        $encryptedId = Crypt::encrypt($carr->id);
+                                    @endphp
+                                    <a href="{{ route('asigCarr', $encryptedId) }}">
+                                        <button type="button" class="asigna">
+                                            Asignar Personal
+                                        </button>
+                                    </a>
+
+
+                                </div>
+                            </td>
+                            <td class="filas-tabla">
+                                <div>
+                                    @php
+                                        $encryptedId = Crypt::encrypt($carr->id);
+                                    @endphp
+                                    <x-layouts.btnenviodat rutaEnvio="modifCarrera" dato="{{ $encryptedId }}"
+                                        nombre="Modificar datos">
+                                    </x-layouts.btnenviodat>
+                                </div>
+                            </td>
+                            <td class="filas-tabla">
+                                <div>
+                                    <form class="eli" action="{{ route('eliCarrera', $carr->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <x-layouts.btnelim contenido="Eliminar">
+                                        </x-layouts.btnelim>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>

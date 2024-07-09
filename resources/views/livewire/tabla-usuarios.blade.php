@@ -1,5 +1,4 @@
 <div>
-    
     <div class="contenedor">
         <link rel="stylesheet" href="./css/usuarios.css">
         <div class="botones">
@@ -47,7 +46,10 @@
 
                                 <td class="filas-tabla">
                                     <div>
-                                        <x-layouts.btnenviodat rutaEnvio="adminedi" dato="{{ $usuario->id }}"
+                                        @php
+                                            $encryptedId = Crypt::encrypt($usuario->id);
+                                        @endphp
+                                        <x-layouts.btnenviodat rutaEnvio="adminedi" dato="{{ $encryptedId }}"
                                             nombre="Modificar">
                                         </x-layouts.btnenviodat>
 
