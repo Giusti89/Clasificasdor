@@ -37,16 +37,20 @@ class TablaInicio extends Component
         $month = $monthYear[1] ?? Carbon::now()->month;
         $year = $monthYear[0] ?? Carbon::now()->year;
 
+        
+        
         if ($role == 'Dir Administrativo') {
             
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
+                ->where('estado',"aprobado")
                 ->paginate($this->paginate);
-        } elseif ($role == 'Jefe de Carrera') {
+        } elseif ($role == 'Jefe de carrera') {
             
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
                 ->whereIn('carrera_id', $carreraIds)
+                
                 ->paginate($this->paginate);
         } elseif ($role == 'Coordinador de Carrera' || $role == 'Docente') {
             

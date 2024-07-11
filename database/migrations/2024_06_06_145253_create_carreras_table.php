@@ -18,21 +18,7 @@ return new class extends Migration
             $table->timestamps();
         });
         
-        DB::table('carreras')->insert([
-            [
-                'nombre' => 'Administracción',                
-            ],
-        ]);
-
-        $carreraId = DB::table('carreras')->where('nombre', 'Administracción')->value('id');
-
-        // Insertar datos en la tabla 'presupuestos'
-        DB::table('presupuestos')->insert([
-            [
-                'monto' => 0,
-                'carrera_id' => $carreraId,
-            ],
-        ]);
+       
     }
 
     /**
@@ -40,7 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presupuestos');
         Schema::dropIfExists('carreras');
     }
 };

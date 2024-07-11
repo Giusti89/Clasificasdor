@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('requerimientos', function (Blueprint $table) {
             $table->id();
             $table->text('descripcion');
-            $table->enum('estado', ['pendiente', 'aprovado', 'clasificado'])->default('pendiente');
+            $table->enum('estado', ['pendiente','listo', 'aprobado', 'clasificado'])->default('pendiente');
             $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->unsignedBigInteger('carrera_id');

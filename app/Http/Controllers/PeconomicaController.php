@@ -18,7 +18,7 @@ class PeconomicaController extends Controller
 
             $sub = Teconomica::find($id);
 
-            $subpartidas = Peconomica::where('teconomica_id', '=', $id)->paginate();
+            $subpartidas = Peconomica::where('teconomica_id', '=', $id)->paginate(3);
             return view('administracion.subeconomicas.index', compact('subpartidas', 'id', 'sub'));
         } catch (DecryptException $e) {
 
@@ -38,7 +38,7 @@ class PeconomicaController extends Controller
             'teconomica_id' => $Id,
         ]);
 
-        return redirect()->route('subparIndex', $Id)->with('msj', 'cambio');
+        return redirect()->route('subparIndex', Crypt::encrypt($Id))->with('msj', 'cambio');
     }
 
     public function destroy(string $id)
@@ -47,9 +47,9 @@ class PeconomicaController extends Controller
             $teco = Peconomica::findOrFail($id);
 
             $teco->delete();
-            return redirect()->route('subparIndex', $id)->with('msj', 'ok');
+            return redirect()->route('subparIndex', Crypt::encrypt($id))->with('msj', 'ok');
         } catch (\Throwable $th) {
-            return redirect()->route('subparIndex', $id)->with('success', 'ok');
+            return redirect()->route('subparIndex',  Crypt::encrypt($id))->with('success', 'ok');
         }
     }
 
@@ -101,6 +101,6 @@ class PeconomicaController extends Controller
         $teco->save();
 
 
-        return redirect()->route('subparIndex', $teco->teconomica_id)->with('msj', 'cambio');
+        return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id) )->with('msj', 'cambio');
     }
 }

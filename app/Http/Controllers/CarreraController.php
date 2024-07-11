@@ -50,7 +50,7 @@ class CarreraController extends Controller
             'monto' => $request->monto,
         ]);
 
-        return redirect()->route('adminIndex')->with('msj', 'cambio');
+        return redirect()->route('adminCarrera')->with('msj', 'cambio');
     }
 
     public function asignar($encryptedId)
@@ -82,7 +82,7 @@ class CarreraController extends Controller
         $carrera = Carrera::findOrFail($carreraId);
         $carrera->users()->attach($request->user_id);
 
-        return redirect()->route('asigCarr', $carreraId)->with('msj', 'cambio');
+        return redirect()->route('asigCarr', Crypt::encrypt($carreraId))->with('msj', 'cambio');
     }
 
     public function eliminarUsuarioCarrera($carreraId, $userId)
@@ -90,7 +90,7 @@ class CarreraController extends Controller
         $carrera = Carrera::findOrFail($carreraId);
         $carrera->users()->detach($userId);
 
-        return redirect()->route('asigCarr', $carreraId)->with('msj', 'ok');
+        return redirect()->route('asigCarr',  Crypt::encrypt($carreraId))->with('msj', 'ok');
     }
 
     public function destroy($id)

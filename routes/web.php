@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministracionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PeconomicaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicoController;
@@ -34,7 +35,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store'])
     ->middleware('guest');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('docentes.menu.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
@@ -96,6 +97,20 @@ Route::middleware('auth')->group(function () {
         Route::patch('docentes.pedidos.update/{id}', 'update')->name('updateSolicitud');
         Route::delete('docentes.pedidos.destroy/{id}', 'destroy')->name('destroySolicitud');
     });
+
+    Route::controller(ItemController::class)->group(function () {
+        Route::get('item.index/{id}', 'index')->name('llenarSolicitud');
+        Route::post('item.index/{id}', 'store')->name('storeLlenar');
+        Route::delete('item.destroy/{id}', 'destroy')->name('destroyLlenar'); 
+
+        Route::get('item.listo/{id}', 'vista')->name('vistallenarSol');
+
+        Route::patch('item.listo/{id}', 'listo')->name('listoLlenar');
+        Route::get('item.aprobar/{id}', 'aprobar')->name('aprobarLlenar'); 
+
+    });
+
+
 
 });
 

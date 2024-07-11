@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title> @yield('titulo') </title>
+    <link rel="icon" href="./img/logo.ico" type="image/ico">
     @livewireStyles
 </head>
 

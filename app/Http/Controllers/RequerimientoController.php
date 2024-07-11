@@ -92,12 +92,12 @@ class RequerimientoController extends Controller
 
             if ($solicitud) {
                 $solicitud->delete();
-                return Redirect::route('publicoIndex')->with('msj', 'Solicitud eliminada correctamente.');
+                return Redirect::route('publicoIndex')->with('msj', 'ok');
             } else {
-                return Redirect::route('publicoIndex')->with('msj', 'Solicitud no encontrada.');
+                return Redirect::route('publicoIndex')->with('msj', 'error');
             }
         } catch (\Exception $e) {
-            return Redirect::route('publicoIndex')->with('msj', 'Error al eliminar la solicitud.');
+            return Redirect::route('publicoIndex')->with('msj', 'error');
         }
     }
 }
