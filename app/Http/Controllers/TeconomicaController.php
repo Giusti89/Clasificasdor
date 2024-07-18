@@ -44,6 +44,19 @@ class TeconomicaController extends Controller
             'codigo.between' => 'El código debe estar entre 0 y 999999.99.',
         ]);
 
+        try {
+            $carrera = new Teconomica();
+            $carrera->nombre = $request->input('nombre');
+            $carrera->npartida = $request->input('codigo');
+            $carrera->presupuesto = $request->input('presupuesto');
+            $carrera->descripcion = $request->input('descripcion');
+    
+    
+            $carrera->save();
+            return redirect()->route('teconomicaCarrera')->with('msj', 'cambio');
+        } catch (\Throwable $th) {
+            return redirect()->route('teconomicaCarrera')->with('msj', 'error');
+        }
 
         $carrera = new Teconomica();
         $carrera->nombre = $request->input('nombre');

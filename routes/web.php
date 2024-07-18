@@ -78,6 +78,13 @@ Route::middleware(['auth', 'CheckAdmin'])->group(function () {
         Route::get('administracion.subeconomicas.edit/{id}', 'edit')->name('editSubeco');
         Route::patch('administracion.subeconomicas.update/{id}', 'update')->name('updateSubeco');
     });
+
+    Route::controller(ItemController::class)->group(function () {      
+        Route::get('item.aprobado/{id}', 'aprobado')->name('calsificarReque');
+        Route::get('item.clasificar/{id}', 'clasificar')->name('calsifPartida');
+        Route::post('item.clasificar', 'ejecutar')->name('itemEjecutar');
+
+    });
 });
 
 
@@ -88,6 +95,7 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(PublicoController::class)->group(function () {
         Route::get('docentes.menu.index', 'index')->name('publicoIndex');
+        Route::get('docentes.menu.ver/{id}', 'ver')->name('verIndex');
     });
 
     Route::controller(RequerimientoController::class)->group(function () {
@@ -102,11 +110,10 @@ Route::middleware('auth')->group(function () {
         Route::get('item.index/{id}', 'index')->name('llenarSolicitud');
         Route::post('item.index/{id}', 'store')->name('storeLlenar');
         Route::delete('item.destroy/{id}', 'destroy')->name('destroyLlenar'); 
-
-        Route::get('item.listo/{id}', 'vista')->name('vistallenarSol');
-
-        Route::patch('item.listo/{id}', 'listo')->name('listoLlenar');
-        Route::get('item.aprobar/{id}', 'aprobar')->name('aprobarLlenar'); 
+        Route::get('item.listo/{id}', 'listo')->name('listoLlenar');        
+        
+        Route::get('item.vlisto/{id}', 'vista')->name('vistallenarSol');
+        Route::post('item.aprobar/{id}', 'aprobar')->name('aprobarLlenar');
 
     });
 

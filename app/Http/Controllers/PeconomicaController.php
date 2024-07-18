@@ -88,7 +88,8 @@ class PeconomicaController extends Controller
 
         ]);
 
-        $teco = Peconomica::findOrFail($id);
+        try {
+            $teco = Peconomica::findOrFail($id);
 
         $teco->nombre = $request->input('nombre');
         $teco->npartida = $request->input('codigo');
@@ -97,10 +98,14 @@ class PeconomicaController extends Controller
             $teco->monto =  $teco->monto + $request->input('agregar');
         }
         $teco->descripcion = $request->input('descripcion');
-
         $teco->save();
 
-
         return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id) )->with('msj', 'cambio');
+        } catch (\Throwable $th) {
+            return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id) )->with('msj', 'error');
+
+        }
+
+        
     }
 }

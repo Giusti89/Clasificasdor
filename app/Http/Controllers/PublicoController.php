@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\Requerimiento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class PublicoController extends Controller
 {
@@ -12,6 +15,17 @@ class PublicoController extends Controller
     public function index()
     {
         return view('docentes.menu.index');
+    }
+
+    public function ver($encryptedId)
+    {
+        $id = Crypt::decrypt($encryptedId);
+        $reque = Requerimiento::findOrFail($id);
+
+        $items = Item::where('requerimiento_id', '=', $id)->paginate(5);
+
+        return view('docentes.menu.ver', compact('id', 'items', 'reque'));
+        
     }
 
     /**

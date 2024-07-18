@@ -45,14 +45,16 @@ class TablaInicio extends Component
                 ->whereYear('created_at', $year)
                 ->where('estado',"aprobado")
                 ->paginate($this->paginate);
+
         } elseif ($role == 'Jefe de carrera') {
             
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
-                ->whereIn('carrera_id', $carreraIds)
-                
+                ->where('estado',"listo")
+                ->whereIn('carrera_id', $carreraIds)                
                 ->paginate($this->paginate);
-        } elseif ($role == 'Coordinador de Carrera' || $role == 'Docente') {
+                
+        } elseif ($role == 'Coordinador de Carrera' && $role == 'Docente') {
             
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)

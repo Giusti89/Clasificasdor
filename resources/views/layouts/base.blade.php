@@ -68,6 +68,7 @@
                         @if (Auth::user()->rol_id == 1)
                             @include('layouts.navegadoradmin')
                         @endif
+                        
                         @yield('contenido')
 
                     </div>

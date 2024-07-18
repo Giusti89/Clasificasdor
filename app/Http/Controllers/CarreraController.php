@@ -39,18 +39,24 @@ class CarreraController extends Controller
             'monto.between' => 'El presupuesto debe estar entre 0 y 999999.99.',
         ]);
 
-        // Crear la carrera
-        $carrera = Carrera::create([
-            'nombre' => $request->nombre,
-        ]);
+        try {
+            $carrera = Carrera::create([
+                'nombre' => $request->nombre,
+            ]);
+    
+            // Crear el presupuesto para la carrera
+            $presupuesto = Presupuesto::create([
+                'carrera_id' => $carrera->id,
+                'monto' => $request->monto,
+            ]);
+    
+            return redirect()->route('adminCarrera')->with('msj', 'cambio');
+        } catch (\Throwable $th) {
+            return redirect()->route('adminCarrera')->with('msj', 'error');
+        }
 
-        // Crear el presupuesto para la carrera
-        $presupuesto = Presupuesto::create([
-            'carrera_id' => $carrera->id,
-            'monto' => $request->monto,
-        ]);
-
-        return redirect()->route('adminCarrera')->with('msj', 'cambio');
+        
+       
     }
 
     public function asignar($encryptedId)

@@ -48,6 +48,10 @@
                                 <td class="filas-tabla">
                                     {{ $requerimiento->created_at->format('d-m-Y') }}
                                 </td>
+
+
+
+
                                 @if ($requerimiento->estado == 'pendiente')
                                     <td>
                                         @php
@@ -59,7 +63,7 @@
                                             </button>
                                         </a>
                                     </td>
-                                @elseif($requerimiento->estado == 'listo')
+                                @elseif(Auth::user()->rol_id == 2 && $requerimiento->estado == 'listo')
                                     <td>
                                         @php
                                             $encryptedId = Crypt::encrypt($requerimiento->id);
@@ -70,18 +74,31 @@
                                             </button>
                                         </a>
                                     </td>
+                                @elseif(Auth::user()->rol_id == 1 && $requerimiento->estado == 'aprobado')
+                                    <td>
+                                        @php
+                                            $encryptedId = Crypt::encrypt($requerimiento->id);
+                                        @endphp
+                                        <a href="{{ route('calsificarReque', $encryptedId) }}">
+                                            <button type="button" class="asigna">
+                                                Clasificar
+                                            </button>
+                                        </a>
+                                    </td>
                                 @else
                                     <td>
                                         @php
                                             $encryptedId = Crypt::encrypt($requerimiento->id);
                                         @endphp
-                                        <a href="{{ route('llenarSolicitud', $encryptedId) }}">
+                                        <a href="{{ route('verIndex', $encryptedId) }}">
                                             <button type="button" class="asigna">
                                                 Ver
                                             </button>
                                         </a>
                                     </td>
                                 @endif
+
+
                                 <td class="filas-tabla">
                                     <div>
                                         @php

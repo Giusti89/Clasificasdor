@@ -31,10 +31,6 @@
                             <th>Acción</th>
                         @endif
 
-                        <th>Modificar</th>
-
-                        <th>Eliminar</th>
-
 
                     </tr>
                 </thead>
@@ -79,18 +75,6 @@
                             @endif
 
 
-                            <td class="filas-tabla">
-                                "modificar"
-                            </td>
-
-                            <td class="filas-tabla">
-                                <form class="eli" action="{{ route('destroyLlenar', Crypt::encrypt($item->id)) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <x-layouts.btnelim contenido="Eliminar"></x-layouts.btnelim>
-                                </form>
-                            </td>
 
                         </tr>
                     @endforeach
@@ -100,47 +84,23 @@
         </div>
 
         <div class="conteform">
-            <div class="formulario">
-                <div class="titulo">
-                    <h1> <b>Registro sub Partida Económica</b></h1>
-                </div>
+            
+            @php
+                $encryptedId = Crypt::encrypt($id);
+            @endphp
+            <form class="eli" action="{{ route('aprobarLlenar', $encryptedId) }}" method="POST">
+                @csrf
+                <x-layouts.btnelim contenido="LISTO"></x-layouts.btnelim>
+            </form>
 
-    
-                <form action="POST">
-                    @csrf
-                    <div class="mb-4">
-                        @php
-                            $encryptedId = Crypt::encrypt($id);
-                        @endphp
-                        @if ($reque->estado == 'pendiente')
-                        <x-layouts.btnenviodat rutaEnvio="listoLlenar" dato="{{ $encryptedId }}" nombre="Listo">
-                        </x-layouts.btnenviodat>
-                    @elseif ($reque->estado == 'listo')
-                        <x-layouts.btnenviodat rutaEnvio="aprobarLlenar" dato="{{ $encryptedId }}" nombre="Aprobar">
-                        </x-layouts.btnenviodat>
-                    @elseif ($reque->estado == 'aprovado')
-                        <x-layouts.btnenviodat rutaEnvio="listoLlenar" dato="{{ $encryptedId }}" nombre="Clasificar">
-                        </x-layouts.btnenviodat>
-                    @elseif ($reque->estado == 'clasificado')
-                        <x-layouts.btnenviodat rutaEnvio="listoLlenar" dato="{{ $encryptedId }}" nombre="Ver">
-                        </x-layouts.btnenviodat>
-                    @endif
 
-                    </div>                    
-                </form>
-                <div class="flex items-center justify-end mt-4">
-                    <a class="underline text-sm text-red-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        href="{{ route('publicoIndex') }}">
-                        {{ __('Regresar') }}
-                    </a>
-                    
-                </div>
-
+            <div class="flex items-center justify-end mt-4">
+                <a class="underline ml-4 text-sm text-red-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    href="{{ route('publicoIndex') }}">
+                    {{ __('Regresar') }}
+                </a>
             </div>
         </div>
-
-
-
     </div>
 
     @section('js')
@@ -150,13 +110,13 @@
                 e.preventDefault()
 
                 Swal.fire({
-                    title: "¿Quieres elimiar al docente?",
+                    title: "¿Quieres Aprobar este requerimiento ?",
                     text: "¡No podrás revertir esto!",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Si, eliminar"
+                    confirmButtonText: "Si, aprobar"
                 }).then((result) => {
                     if (result.value) {
                         this.submit();
