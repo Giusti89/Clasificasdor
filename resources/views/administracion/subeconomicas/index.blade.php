@@ -3,7 +3,11 @@
         <link rel="stylesheet" href="../css/nuevaSub.css">
         <!-- Name -->
         <div class="titulo">
-            <h1><b> Asignar sub partidas económicas:{{ $sub->nombre }}, <br> codigo: {{ $sub->npartida }} </b></h1>
+            @if ($sub)
+                <h1><b> Asignar sub partidas económicas:{{ $sub->nombre }}, <br> codigo: {{ $sub->npartida }} </b></h1>
+            @else
+                <h1><b> Sub partida económica no encontrada </b></h1>
+            @endif
         </div>
 
         <div class="table-container">
@@ -89,7 +93,7 @@
                             {{ __('Regresar') }}
                         </a>
 
-                        <x-primary-button class="ms-4">
+                        <x-primary-button class="ms-4 mb-4">
                             {{ __('Register') }}
                         </x-primary-button>
                     </div>
@@ -105,7 +109,7 @@
                 e.preventDefault()
 
                 Swal.fire({
-                    title: "¿Quieres elimiar al docente?",
+                    title: "¿Quieres elimiar esta partida económica?",
                     text: "¡No podrás revertir esto!",
                     icon: "warning",
                     showCancelButton: true,

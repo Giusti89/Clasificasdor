@@ -7,21 +7,23 @@ use App\Models\Teconomica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PeconomicaController extends Controller
 {
     public function create($encryptedId)
     {
         try {
-
             $id = Crypt::decrypt($encryptedId);
-
             $sub = Teconomica::find($id);
+
+            if ($sub === null) {
+                return redirect()->route('teconomicaCarrera')->with('msj', 'error');
+            }
 
             $subpartidas = Peconomica::where('teconomica_id', '=', $id)->paginate(3);
             return view('administracion.subeconomicas.index', compact('subpartidas', 'id', 'sub'));
         } catch (DecryptException $e) {
-
             return redirect()->route('teconomicaCarrera')->with('msj', 'error');
         }
     }
@@ -29,27 +31,31 @@ class PeconomicaController extends Controller
     public function store(Request $request, $Id)
     {
 
+        try {
+            // Crear el nuevo registro
+            Peconomica::create([
+                'nombre' => $request->nombre,
+                'npartida' => $request->codigo,
+                'descripcion' => $request->descripcion,
+                'monto' => $request->monto,
+                'teconomica_id' => $Id,
+            ]);
 
-        Peconomica::create([
-            'nombre' => $request->nombre,
-            'npartida' => $request->codigo,
-            'descripcion' => $request->descripcion,
-            'monto' => $request->monto,
-            'teconomica_id' => $Id,
-        ]);
-
-        return redirect()->route('subparIndex', Crypt::encrypt($Id))->with('msj', 'cambio');
+            return redirect()->route('subparIndex', Crypt::encrypt($Id))->with('msj', 'cambio');
+        } catch (\Throwable $th) {
+            return redirect()->route('subparIndex', Crypt::encrypt($Id))->with('msj', 'error');
+        }
     }
 
     public function destroy(string $id)
     {
         try {
             $teco = Peconomica::findOrFail($id);
-
             $teco->delete();
-            return redirect()->route('subparIndex', Crypt::encrypt($id))->with('msj', 'ok');
+
+            return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id))->with('msj', 'ok');
         } catch (\Throwable $th) {
-            return redirect()->route('subparIndex',  Crypt::encrypt($id))->with('success', 'ok');
+            return redirect()->route('subparIndex', Crypt::encrypt($id))->with('success', 'ok');
         }
     }
 
@@ -58,8 +64,17 @@ class PeconomicaController extends Controller
         try {
             $id = Crypt::decrypt($encryptedId);
             $peco = Peconomica::find($id);
+
+            if (is_null($peco)) {
+                return redirect()->route('teconomicaCarrera')->with('msj', 'error');
+            }
+
             return view('administracion.subeconomicas.edit', compact('peco'));
         } catch (DecryptException $e) {
+            
+            return redirect()->route('teconomicaCarrera')->with('msj', 'error');
+        } catch (\Throwable $th) {
+            
             return redirect()->route('teconomicaCarrera')->with('msj', 'error');
         }
     }
@@ -91,21 +106,27 @@ class PeconomicaController extends Controller
         try {
             $teco = Peconomica::findOrFail($id);
 
-        $teco->nombre = $request->input('nombre');
-        $teco->npartida = $request->input('codigo');
+            $teco->nombre = $request->input('nombre');
+            $teco->npartida = $request->input('codigo');
 
-        if ($request->agregar) {
-            $teco->monto =  $teco->monto + $request->input('agregar');
-        }
-        $teco->descripcion = $request->input('descripcion');
-        $teco->save();
+            if ($request->agregar) {
+                $teco->monto =  $teco->monto + $request->input('agregar');
+            }
 
-        return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id) )->with('msj', 'cambio');
+            if ($request->restar) {
+                $teco->monto =  $teco->monto - $request->input('restar');
+            }
+
+            $teco->descripcion = $request->input('descripcion');
+            $teco->save();
+
+            return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id))->with('msj', 'cambio');
+        } catch (ModelNotFoundException $e) {
+            
+            return redirect()->route('teconomicaCarrera')->with('msj', 'error');
         } catch (\Throwable $th) {
-            return redirect()->route('subparIndex', Crypt::encrypt($teco->teconomica_id) )->with('msj', 'error');
-
+            
+            return redirect()->route('teconomicaCarrera')->with('msj', 'error');
         }
-
-        
     }
 }

@@ -70,7 +70,7 @@ Route::middleware(['auth', 'CheckAdmin'])->group(function () {
         Route::patch('administracion.peconomica.update/{id}', 'update')->name('updateTeco');
         Route::delete('administracion.peconomica.index/{id}', 'destroy')->name('eliTeco');         
     });
-
+    
     Route::controller(PeconomicaController::class)->group(function () {
         Route::get('administracion.subeconomicas.index/{id}', 'create')->name('subparIndex');         
         Route::post('administracion.subeconomicas.store/{id}', 'store')->name('storeSubecono'); 
@@ -109,11 +109,23 @@ Route::middleware('auth')->group(function () {
     Route::controller(ItemController::class)->group(function () {
         Route::get('item.index/{id}', 'index')->name('llenarSolicitud');
         Route::post('item.index/{id}', 'store')->name('storeLlenar');
+        Route::get('item.edit/{id}', 'edit')->name('editItem');
+        Route::patch('item.update/{id}', 'update')->name('updateItem');
         Route::delete('item.destroy/{id}', 'destroy')->name('destroyLlenar'); 
+        
         Route::get('item.listo/{id}', 'listo')->name('listoLlenar');        
         
         Route::get('item.vlisto/{id}', 'vista')->name('vistallenarSol');
         Route::post('item.aprobar/{id}', 'aprobar')->name('aprobarLlenar');
+
+        Route::post('item.aprobar/{id}', 'alta')->name('altaReque');
+
+        Route::get('item.observacion/{id}', 'vobservacion')->name('vistaobservacion');
+        Route::post('item.observacion/{id}', 'storeObservacion')->name('storeobservacion');
+
+        Route::get('item.correccion/{id}', 'vcorreccion')->name('vistacorreccion');
+        Route::post('item.correccion/{id}', 'storecorreccion')->name('storecorrec');
+
 
     });
 

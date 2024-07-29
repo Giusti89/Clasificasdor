@@ -6,6 +6,7 @@ use App\Models\Carrera;
 use App\Models\Presupuesto;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Models\CarreraUser;
 use Illuminate\Support\Facades\DB;
@@ -17,12 +18,24 @@ class CarreraController extends Controller
 {
     public function index()
     {
-        return view('administracion.carreras.index');
+        try {
+            return view('administracion.carreras.index');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error al mostrar la vista de carreras: ' . $e->getMessage());
+    
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function create()
     {
-        return view('administracion.carreras.nuevo');
+        try {
+            return view('administracion.carreras.nuevo');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Error al mostrar la vista de creación de carrera: ' . $e->getMessage());
+    
+            return response()->view('errors.500', [], 500);
+        }
     }
     public function store(Request $request)
     {
@@ -43,20 +56,17 @@ class CarreraController extends Controller
             $carrera = Carrera::create([
                 'nombre' => $request->nombre,
             ]);
-    
+
             // Crear el presupuesto para la carrera
             $presupuesto = Presupuesto::create([
                 'carrera_id' => $carrera->id,
                 'monto' => $request->monto,
             ]);
-    
+
             return redirect()->route('adminCarrera')->with('msj', 'cambio');
         } catch (\Throwable $th) {
             return redirect()->route('adminCarrera')->with('msj', 'error');
         }
-
-        
-       
     }
 
     public function asignar($encryptedId)
@@ -81,22 +91,35 @@ class CarreraController extends Controller
 
     public function asignarUsuarioCarrera(Request $request, $carreraId)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-        ]);
 
-        $carrera = Carrera::findOrFail($carreraId);
-        $carrera->users()->attach($request->user_id);
+        try {
 
-        return redirect()->route('asigCarr', Crypt::encrypt($carreraId))->with('msj', 'cambio');
+            $request->validate([
+                'user_id' => 'required|exists:users,id',
+            ]);
+
+            $carrera = Carrera::findOrFail($carreraId);
+            $carrera->users()->attach($request->user_id);
+
+            return redirect()->route('asigCarr', Crypt::encrypt($carreraId))->with('msj', 'cambio');
+        } catch (\Exception $e) {
+
+            Log::error('Error al asignar usuario a la carrera: ' . $e->getMessage());
+
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function eliminarUsuarioCarrera($carreraId, $userId)
     {
-        $carrera = Carrera::findOrFail($carreraId);
-        $carrera->users()->detach($userId);
-
-        return redirect()->route('asigCarr',  Crypt::encrypt($carreraId))->with('msj', 'ok');
+        try {
+            $carrera = Carrera::findOrFail($carreraId);
+            $carrera->users()->detach($userId);
+            return redirect()->route('asigCarr', Crypt::encrypt($carreraId))->with('msj', 'ok');
+        } catch (\Exception $e) {
+            Log::error('Error al eliminar el usuario de la carrera: ' . $e->getMessage());
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function destroy($id)

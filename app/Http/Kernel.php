@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\HandleDatabaseConnectionExceptions::class,
     ];
 
     /**
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'nocache' => \App\Http\Middleware\NoCache::class,
         'logout.if.authenticated' => \App\Http\Middleware\LogoutIfAuthenticated::class,
         'CheckAdmin' => \App\Http\Middleware\CheckAdmin::class,
+        'handle.db.connection' => \App\Http\Middleware\HandleDatabaseConnectionExceptions::class,        
     ];
 }

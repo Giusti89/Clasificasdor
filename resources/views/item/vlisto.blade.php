@@ -2,9 +2,12 @@
     <div class="contenido">
         <link rel="stylesheet" href="../css/item.css">
         <div class="titulo">
-            <h1><b> SOLICITUD DE MATERIALES Y/O CONTRATACION DE SERVICIOS </b></h1>
+            <h1><b> SOLICITUD DE MATERIALES Y/O CONTRATACIóN DE SERVICIOS </b></h1>
         </div>
-
+        <div class="solicitud">
+            <h1>Justificación de la solicitud</h1>
+            <p>{{ $reque->descripcion }}</p>
+        </div>
         <div class="table-container">
             <table>
                 <thead>
@@ -74,8 +77,6 @@
                                 </td>
                             @endif
 
-
-
                         </tr>
                     @endforeach
                 </tbody>
@@ -84,14 +85,25 @@
         </div>
 
         <div class="conteform">
-            
+
             @php
                 $encryptedId = Crypt::encrypt($id);
             @endphp
-            <form class="eli" action="{{ route('aprobarLlenar', $encryptedId) }}" method="POST">
+
+            <x-layouts.btnenviodat rutaEnvio="vistaobservacion" dato="{{ $encryptedId }}" nombre="OBSERVAR">
+            </x-layouts.btnenviodat>
+            <form class="eli ml-4" action="{{ route('aprobarLlenar', $encryptedId) }}" method="POST">
                 @csrf
-                <x-layouts.btnelim contenido="LISTO"></x-layouts.btnelim>
+                <x-layouts.btnelim contenido="APROBAR"></x-layouts.btnelim>
             </form>
+
+
+
+
+            {{-- <form class="ml-4" action="{{ route('vistaobservacion', $encryptedId) }}" method="POST">
+                @csrf
+                <x-layouts.btnelim color="green" contenido="OBSERVAR" dato="{{ $encryptedId }}"></x-layouts.btnelim>
+            </form> --}}
 
 
             <div class="flex items-center justify-end mt-4">

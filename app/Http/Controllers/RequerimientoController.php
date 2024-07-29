@@ -13,6 +13,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class RequerimientoController extends Controller
 {
+    
     public function create()
     {
         if (!Gate::denies('create', Requerimiento::class)) {
@@ -35,12 +36,11 @@ class RequerimientoController extends Controller
                 'descripcion' => $request->descripcion,
                 'estado' => 'pendiente',
                 'fecha' => $fechaActual,
-                'carrera_id' => $request->carrera,
-                
+                'carrera_id' => $request->carrera,                
             ]);
-            return view('docentes.menu.index');
+            return Redirect::route('publicoIndex')->with('msj', 'cambio');
         }else {
-           abort(403, 'No tienes los permisos para realizar la solicitud.');
+            return Redirect::route('publicoIndex')->with('msj', 'error');
         }
         
     }

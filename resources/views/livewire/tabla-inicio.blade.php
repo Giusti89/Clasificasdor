@@ -32,6 +32,7 @@
                             <th>Eliminar</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         @foreach ($requerimientos as $requerimiento)
                             <tr>
@@ -49,10 +50,7 @@
                                     {{ $requerimiento->created_at->format('d-m-Y') }}
                                 </td>
 
-
-
-
-                                @if ($requerimiento->estado == 'pendiente')
+                                @if ($requerimiento->estado == 'pendiente' && Auth::user()->carreras->first()->id == $requerimiento->carrera_id)
                                     <td>
                                         @php
                                             $encryptedId = Crypt::encrypt($requerimiento->id);
@@ -63,6 +61,16 @@
                                             </button>
                                         </a>
                                     </td>
+                                @elseif ($requerimiento->estado == 'observado' && Auth::user()->carreras->first()->id == $requerimiento->carrera_id)
+                                    <td>
+                                        @php
+                                            $encryptedId = Crypt::encrypt($requerimiento->id);
+                                        @endphp
+                                        <x-layouts.btnenviodat rutaEnvio="vistacorreccion" dato="{{ $encryptedId }}"
+                                            nombre="Revisar">
+                                        </x-layouts.btnenviodat>
+                                    </td>
+
                                 @elseif(Auth::user()->rol_id == 2 && $requerimiento->estado == 'listo')
                                     <td>
                                         @php
@@ -74,6 +82,7 @@
                                             </button>
                                         </a>
                                     </td>
+
                                 @elseif(Auth::user()->rol_id == 1 && $requerimiento->estado == 'aprobado')
                                     <td>
                                         @php
@@ -85,6 +94,7 @@
                                             </button>
                                         </a>
                                     </td>
+
                                 @else
                                     <td>
                                         @php
@@ -98,15 +108,21 @@
                                     </td>
                                 @endif
 
-
                                 <td class="filas-tabla">
                                     <div>
-                                        @php
-                                            $encryptedId = Crypt::encrypt($requerimiento->id);
-                                        @endphp
-                                        <x-layouts.btnenviodat rutaEnvio="editSolicitud" dato="{{ $encryptedId }}"
-                                            nombre="Modificar">
-                                        </x-layouts.btnenviodat>
+                                        @if ($requerimiento->estado != 'pendiente')
+                                            @php
+                                                $encryptedId = Crypt::encrypt($requerimiento->id);
+                                            @endphp
+                                            <x-layouts.btnenviodat rutaEnvio="editSolicitud" dato="{{ $encryptedId }}"
+                                                nombre="Modificar" estado="disabled">
+                                            </x-layouts.btnenviodat>
+                                        @else
+                                            <x-layouts.btnenviodat rutaEnvio="editSolicitud" dato="{{ $encryptedId }}"
+                                                nombre="Modificar">
+                                            </x-layouts.btnenviodat>
+                                        @endif
+
                                     </div>
                                 </td>
                                 <td class="filas-tabla">
@@ -134,7 +150,7 @@
                     e.preventDefault()
 
                     Swal.fire({
-                        title: "¿Estas seguro de eliminar este usuario?",
+                        title: "¿Estas seguro de eliminar esta solicitud?",
                         text: "¡No podrás revertir esto!",
                         icon: "warning",
                         showCancelButton: true,

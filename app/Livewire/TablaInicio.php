@@ -37,34 +37,44 @@ class TablaInicio extends Component
         $month = $monthYear[1] ?? Carbon::now()->month;
         $year = $monthYear[0] ?? Carbon::now()->year;
 
-        
-        
-        if ($role == 'Dir Administrativo') {
-            
-            $requerimientos = Requerimiento::whereMonth('created_at', $month)
-                ->whereYear('created_at', $year)
-                ->where('estado',"aprobado")
-                ->paginate($this->paginate);
 
-        } elseif ($role == 'Jefe de carrera') {
-            
+
+        if ($role == 'Dir Administrativo') {
+
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
-                ->where('estado',"listo")
-                ->whereIn('carrera_id', $carreraIds)                
+                ->whereIn('estado', ['aprobado', 'pendiente'])
+                ->where(function ($query) {
+                    $query->where('estado', 'aprobado')
+                        ->orWhere(function ($query) {
+                            $query->where('estado', 'pendiente')
+                                ->whereHas('carrera', function ($query) {
+                                    $query->where('nombre', 'Administracción');
+                                });
+                        });
+                })
+                ->orderByRaw("FIELD(estado, 'aprobado', 'pendiente') ASC")
                 ->paginate($this->paginate);
-                
-        } elseif ($role == 'Coordinador de Carrera' && $role == 'Docente') {
-            
+        } elseif ($role == 'Jefe de carrera') {
+
+            $requerimientos = Requerimiento::whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->where('estado', '!=', "aprobado")
+                ->whereIn('carrera_id', $carreraIds)
+                ->paginate($this->paginate);
+        } elseif ($role == 'Coordinador de carrera' && $role == 'Docente de la institución') {
+
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
                 ->whereIn('carrera_id', $carreraIds)
+                ->orderByRaw("FIELD(estado,'pendiente') ASC")
                 ->paginate($this->paginate);
         } else {
-            
+
             $requerimientos = Requerimiento::whereMonth('created_at', $month)
                 ->whereYear('created_at', $year)
                 ->whereIn('carrera_id', $carreraIds)
+                ->orderByRaw("FIELD(estado,'pendiente') ASC")
                 ->paginate($this->paginate);
         }
 

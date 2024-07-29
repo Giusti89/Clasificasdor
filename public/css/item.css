@@ -27,6 +27,30 @@ input[type=number] {
     align-items: center;
     border: solid;
 }
+.solicitud{
+    display: flex;    
+    flex-direction: column;
+    align-items: center;
+    color: aliceblue;
+   margin-bottom: 15px;
+}
+.solicitud h1{
+color: red;
+font-size: 1.3rem;
+}
+.terminar{
+    
+    display: flex;    
+    justify-content: end;
+}
+.observacion{
+    display: flex;
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    color:white;
+}
+
 
 /* -------------------tabla------------------- */
 table {
@@ -119,6 +143,35 @@ table tr:hover {
 
 .modificar:active {
     background-color: #3e8e41;
+}
+/* ---------------btn-------------- */
+.btn-listo {
+    background-color: #ea9342 ;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.btn-listo:hover {
+    background-color: #f07400;
+}
+
+.btn-listo:active {
+    background-color: #ad5d13;
+}
+@media (max-width: 768px) {
+    .modificar {
+        background-color: #ea9342 ;
+        padding: 10px 20px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.5rem;
+    }
 }
 
 @media (max-width: 768px) {

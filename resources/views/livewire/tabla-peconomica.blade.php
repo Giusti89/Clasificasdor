@@ -8,7 +8,7 @@
                 </x-layouts.btnconfirmar>
             </div>
             <div>
-                <label for="filtro">Filtrar por nombre: </label>
+                <label for="filtro">Filtrar por código: </label>
                 <input type="text" wire:model.live="search">
             </div>
             <div>

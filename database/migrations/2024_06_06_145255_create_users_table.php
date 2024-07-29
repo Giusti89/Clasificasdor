@@ -28,14 +28,7 @@ return new class extends Migration
 
            
         });
-        DB::table('users')->insert([
-            [
-                'name' => 'Giusti',
-                'email' => 'giusti.17@hotmail.com',
-                'password' => Hash::make('17041989'),
-               'rol_id'=>'1',
-            ],
-        ]);
+       
     }
 
     /**

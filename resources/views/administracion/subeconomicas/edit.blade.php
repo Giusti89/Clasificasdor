@@ -40,6 +40,13 @@
             </div>
 
             <div class="mt-4">
+                <x-input-label for="restar" :value="__('Descontar presupuseto a la partida económica')" />
+                <x-text-input id="restar" class="block mt-1 w-full" type="number" name="restar" :value="old('restar')"
+                    autofocus autocomplete="restar" />
+                <x-input-error :messages="$errors->get('restar')" class="mt-2" />
+            </div>
+
+            <div class="mt-4">
                 <x-input-label for="descripcion" :value="__('Descripción de la partida económica')" />
                 <textarea name="descripcion" id="descripcion" cols="30" rows="10">{{ old('descripcion', $peco->descripcion) }}</textarea>
                 <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />

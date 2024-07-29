@@ -31,9 +31,9 @@
             <input type="hidden" name="item_id" value="{{ $idItem }}">
     
             <div class="mt-4">
-                <x-input-label for="cantidad" :value="__('Costo')" />
+                <x-input-label for="cantidad" :value="__('Costo Total')" />
                 <x-text-input id="precio" class="block mt-1 " type="number" name="precio"
-                    :value="old('precio')" required autofocus autocomplete="precio" />
+                    :value="old('precio')" required autofocus autocomplete="precio" step="0.01" />
                 <x-input-error :messages="$errors->get('precio')" class="mt-2" />
             </div>
     

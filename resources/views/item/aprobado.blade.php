@@ -9,7 +9,7 @@
             <table>
                 <thead>
                     <tr>
-                        
+
                         <th>Descripción</th>
 
                         @if (Auth::user()->rol_id == 1)
@@ -66,17 +66,26 @@
                             @endif
                             @if (Auth::user()->rol_id == 1)
                                 <td class="filas-tabla">
-                                    {{ $item->peconomica_id }}
+                                    {{ $item->peconomica->npartida ?? '' }}
                                 </td>
                             @endif
-                            
+
                             @if (Auth::user()->rol_id == 1)
                                 <td>
                                     @php
                                         $encryptedId = Crypt::encrypt($item->id);
                                     @endphp
-                                    <x-layouts.btnenviodat rutaEnvio="calsifPartida" dato="{{  $encryptedId }}" nombre="Clasificar">
-                                    </x-layouts.btnenviodat>
+                                    @if ($item->peconomica_id )
+                                        <x-layouts.btnenviodat rutaEnvio="calsifPartida" dato="{{ $encryptedId }}"
+                                            nombre="Clasificar" estado="disabled">
+                                        </x-layouts.btnenviodat>
+                                    @else
+                                        <x-layouts.btnenviodat rutaEnvio="calsifPartida" dato="{{ $encryptedId }}"
+                                            nombre="Clasificar">
+                                        </x-layouts.btnenviodat>
+                                    @endif
+
+
                                 </td>
                             @endif
 
@@ -94,7 +103,7 @@
             @php
                 $encryptedId = Crypt::encrypt($id);
             @endphp
-            <form class="eli" action="{{ route('aprobarLlenar', $encryptedId) }}" method="POST">
+            <form class="eli" action="{{ route('altaReque', $encryptedId) }}" method="POST">
                 @csrf
                 <x-layouts.btnelim contenido="Dar de alta"></x-layouts.btnelim>
             </form>

@@ -1,4 +1,4 @@
 <link rel="stylesheet" href="../../css/btncancelar.css">
 
-    <button type="submit" id="cancelar" class="cancelar">{{$contenido}}
+    <button style="background-color: {{$color ?? ''}}" type="submit" id="cancelar" class="cancelar">{{$contenido}}
     </button>

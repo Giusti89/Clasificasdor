@@ -15,8 +15,9 @@ return new class extends Migration
         Schema::create('requerimientos', function (Blueprint $table) {
             $table->id();
             $table->text('descripcion');
-            $table->enum('estado', ['pendiente','listo', 'aprobado', 'clasificado'])->default('pendiente');
+            $table->enum('estado', ['pendiente','listo','observado', 'aprobado', 'clasificado'])->default('pendiente');
             $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->text('observaciones')->nullable();
 
             $table->unsignedBigInteger('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('carreras');

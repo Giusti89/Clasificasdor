@@ -31,10 +31,6 @@
                             <th>Acciónnn</th>
                         @endif
 
-                        <th>Modificar</th>
-
-
-
                     </tr>
                 </thead>
                 <tbody>
@@ -76,14 +72,6 @@
                                     "accion"
                                 </td>
                             @endif
-
-
-                            <td class="filas-tabla">
-                                "modificar"
-                            </td>
-
-
-
                         </tr>
                     @endforeach
                 </tbody>

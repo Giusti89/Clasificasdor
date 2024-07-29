@@ -18,7 +18,12 @@ class AdministracionController extends Controller
      */
     public function index()
     {
-        return view('administracion.usuarios.index');
+        try {
+            return view('administracion.usuarios.index');
+        } catch (\Exception $e) {
+            
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     /**
