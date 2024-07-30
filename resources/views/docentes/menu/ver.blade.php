@@ -30,6 +30,7 @@
                         @if (Auth::user()->rol_id == 1)
                             <th>Acciónnn</th>
                         @endif
+                        <th>PDF</th>
 
                     </tr>
                 </thead>
@@ -72,6 +73,18 @@
                                     "accion"
                                 </td>
                             @endif
+                            <td>
+                                @php
+                                    $encryptedId = Crypt::encrypt($item->id);
+                                @endphp
+
+                                <a href="{{ route('verpdf', $encryptedId) }}" target="_blank">
+                                    <button type="button" class="modificar">
+                                        Generar PDF
+                                    </button>
+                                </a>
+                                
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

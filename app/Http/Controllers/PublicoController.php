@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Requerimiento;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 
 class PublicoController extends Controller
@@ -19,15 +19,24 @@ class PublicoController extends Controller
     }
 
     public function ver($encryptedId)
-    {   
+    {
         $id = Crypt::decrypt($encryptedId);
         $reque = Requerimiento::findOrFail($id);
-        
+
         $this->authorize('autor', $reque);
-        
+
         $items = Item::where('requerimiento_id', '=', $id)->paginate(5);
 
-        return view('docentes.menu.ver', compact('id', 'items', 'reque'));       
+        return view('docentes.menu.ver', compact('id', 'items', 'reque'));
+    }
+
+    public function pgenerarPpdf($encryptedId)
+    {
+        PDF::setOptions(['isRemoteEnabled' => true]);
+        $id = Crypt::decrypt($encryptedId);
+        $item = Item::find($id);
+        $pdf=Pdf::loadView('docentes.menu.itempdf', compact('item'));
+        return $pdf->stream('reporte_Item.pdf');
     }
 
     /**

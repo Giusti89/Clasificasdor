@@ -15,7 +15,7 @@
                         {{ __('Inicio') }}
                     </x-nav-link>
                 </div>
-                
+
                 <!-- Navigation Links -->
                 @if (Auth::user()->rol_id == 1)
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -27,7 +27,7 @@
 
                 @if (Auth::user()->rol_id == 1)
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('adminIndex')" :active="request()->routeIs('adminIndex')">
+                        <x-nav-link :href="route('estadisticaIndex')" :active="request()->routeIs('estadisticaIndex')">
                             {{ __('Estadísticas ') }}
                         </x-nav-link>
                     </div>

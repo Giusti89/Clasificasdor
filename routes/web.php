@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministracionController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\EstadisticasController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PeconomicaController;
 use App\Http\Controllers\ProfileController;
@@ -46,6 +47,13 @@ Route::middleware(['auth', 'CheckAdmin'])->group(function () {
         Route::delete('administracion.usuarios.index/{id}', 'destroy')->name('admineli');
         Route::get('administracion.usuarios.edit/{id}', 'edit')->name('adminedi');    
         Route::patch('administracion.usuarios.update/{id}','update')->name('adminedi.update');   
+    });
+    
+    Route::controller(EstadisticasController::class)->group(function () {
+        Route::get('estadisticas.index', 'index')->name('estadisticaIndex'); 
+        Route::get('estadisticas.clasificados', 'clasificados')->name('estadisticaClasificados');
+        // Route::get('administracion.usuarios.edit/{id}', 'edit')->name('adminedi');    
+        // Route::patch('administracion.usuarios.update/{id}','update')->name('adminedi.update');   
     });
 
     Route::controller(CarreraController::class)->group(function () {
@@ -96,6 +104,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(PublicoController::class)->group(function () {
         Route::get('docentes.menu.index', 'index')->name('publicoIndex');
         Route::get('docentes.menu.ver/{id}', 'ver')->name('verIndex');
+        Route::get('docentes.menu.pdf/{id}', 'pgenerarPpdf')->name('verpdf');
     });
 
     Route::controller(RequerimientoController::class)->group(function () {
