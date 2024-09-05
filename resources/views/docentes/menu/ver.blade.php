@@ -82,8 +82,7 @@
                                     <button type="button" class="modificar">
                                         Generar PDF
                                     </button>
-                                </a>
-                                
+                                </a>                                
                             </td>
                         </tr>
                     @endforeach
