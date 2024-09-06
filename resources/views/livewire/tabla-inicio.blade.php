@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             @if (Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2)
-                                <th>carrera</th>
+                                <th>Carrera</th>
                             @endif
 
                             <th>Descripcion</th>
