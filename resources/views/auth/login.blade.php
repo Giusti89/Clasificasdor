@@ -38,7 +38,7 @@
             </div>
             <div class="bienvenida">
                 <div class="titulo">
-                    <h1>Instituto Tecnológico Ayacucho</h1>
+                    <h1>Instituto Tecnológico Ayacuchoo</h1>
                    
                 </div>
                 <p>
